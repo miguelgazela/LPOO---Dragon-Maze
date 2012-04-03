@@ -2,18 +2,27 @@ package maze.test;
 
 import static org.junit.Assert.*;
 import maze.logic.Coord;
+import maze.logic.CustomBuilder;
 import maze.logic.Labirinto;
+import maze.logic.PreDefBuilder;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class LabirintoTest {
 	
-	public Labirinto maze = new Labirinto();
+	public Labirinto maze;
 	
 	@Before
 	public void inicializar() {
-		maze.init(10, 2, 1);
+		
+		maze = new PreDefBuilder(1)
+		.construirLabirinto()
+		.colocarDragao()
+		.colocarEspada()
+		.colocarHeroi()
+		.colocarSaida()
+		.getLabirinto();
 	}
 	
 	@Test
@@ -204,13 +213,26 @@ public class LabirintoTest {
 	
 	@Test
 	public void testTacticaDragoesAdormecidos() {
-		maze.init(12, 1, 2);
+		
+		maze = new CustomBuilder(12, 2, 2)
+				.construirLabirinto()
+				.colocarDragao()
+				.colocarEspada()
+				.getLabirinto();
+
 		assertTrue(maze.dragoesAdormecidos());
 	}
 	
 	@Test
 	public void testHeroiNaoMorreComDragaoAdormecido() {
-		maze.init(0, 0, 2);
+		maze = new PreDefBuilder(2)
+				.construirLabirinto()
+				.colocarDragao()
+				.colocarEspada()
+				.colocarHeroi()
+				.colocarSaida()
+				.getLabirinto();
+		
 		maze.moverHeroi("s");
 		maze.pertoDragao();
 		assertFalse(maze.getHeroi().estaMorto());
@@ -219,7 +241,13 @@ public class LabirintoTest {
 	@Test
 	public void testTacticaDragaoAdormecidoEAcordado() {
 		boolean aDormir = false;
-		maze.init(21, 1, 3);
+		
+		maze = new CustomBuilder(21, 2, 3)
+		.construirLabirinto()
+		.colocarDragao()
+		.colocarEspada()
+		.getLabirinto();
+		
 		assertFalse(maze.dragoesAdormecidos());
 		
 		while (true) 

@@ -1,32 +1,40 @@
 package maze.logic;
 
 public class PreDefBuilder extends Builder {
-
+	
+	public PreDefBuilder (int tactica) {
+		super();
+		maze.tactica = tactica;
+	}
+	
 	@Override
-	public Builder colocarDragao() {
+	public PreDefBuilder colocarDragao() {
 		
 		Dragao dragao = new Dragao(1, 3, false);
 		maze.dragoes.add(dragao);
 		maze.labirinto[dragao.getPos().y][dragao.getPos().x] = Labirinto.DRAGAO;
+		if (maze.tactica == 2) // dragao adormecido
+			maze.dragoes.elementAt(0).adormece();
 		return this;
 	}
 
 	@Override
-	public Builder colocarEspada() {
+	public PreDefBuilder colocarEspada() {
 		
 		maze.espada = new Espada(1,8);
 		maze.labirinto[maze.espada.getPos().y][maze.espada.getPos().x] = Labirinto.ESPADA;
 		return this;
 	}
 	
-	public Builder colocarHeroi() {
+	@Override
+	public PreDefBuilder colocarHeroi() {
 		
 		maze.heroi = new Heroi(1,1);
 		maze.labirinto[maze.heroi.getPos().y][maze.heroi.getPos().x] = Labirinto.HEROI;
 		return this;
 	}
 	
-	public Builder colocarSaida() {
+	public PreDefBuilder colocarSaida() {
 		
 		maze.Saida.x = 9; maze.Saida.y = 5;
 		maze.labirinto[maze.Saida.y][maze.Saida.x] = Labirinto.SAIDA;
@@ -34,7 +42,7 @@ public class PreDefBuilder extends Builder {
 	}
 
 	@Override
-	public Builder construirLabirinto() {
+	public PreDefBuilder construirLabirinto() {
 		
 		maze.size = 10;
 		maze.labirinto = new int[maze.size][maze.size];

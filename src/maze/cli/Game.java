@@ -2,9 +2,8 @@ package maze.cli;
 
 import java.util.Scanner;
 
-import maze.gui.Configuration;
 import maze.gui.*;
-import maze.logic.ConfigurationMaze;
+import maze.logic.CustomBuilder;
 import maze.logic.Labirinto;
 import maze.logic.PreDefBuilder;
 
@@ -89,10 +88,23 @@ public class Game {
 			} while(!escolhaValida);
 		
 		if (opcao == 2)
-			maze = new Labirinto(tactica);
+		{
+			maze = new PreDefBuilder(tactica)
+					.construirLabirinto()
+					.colocarDragao()
+					.colocarEspada()
+					.colocarHeroi()
+					.colocarSaida()
+					.getLabirinto();
+		}
 		else
-			maze = new Labirinto(tamanho, 2, tactica);
-		
+		{
+			maze = new CustomBuilder(tamanho, 2, tactica)
+					.construirLabirinto()
+					.colocarDragao()
+					.colocarEspada()
+					.getLabirinto();
+		}
 		// motor do jogo
 		
 		do {

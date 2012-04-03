@@ -2,21 +2,10 @@ package maze.gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-
+import java.io.*;
 import javax.swing.*;
-
-import maze.logic.ConfigurationMaze;
-import maze.logic.Labirinto;
-import maze.sound.brickSmash;
-import maze.sound.heroDies;
-import maze.sound.soundWinning;
+import maze.logic.*;
+import maze.sound.*;
 
 
 public class GraphicGame extends JFrame implements Serializable {
@@ -62,8 +51,13 @@ public class GraphicGame extends JFrame implements Serializable {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		GraphicGame.configs = configs;
-		maze = new Labirinto(configs.sizeMaze, configs.numberDragons, configs.tactica);
 		
+		maze = new CustomBuilder(configs.sizeMaze, configs.numberDragons, configs.tactica)
+		.construirLabirinto()
+		.colocarDragao()
+		.colocarEspada()
+		.getLabirinto();
+
 		createShowGUI();
 	}
 	
@@ -91,8 +85,8 @@ public class GraphicGame extends JFrame implements Serializable {
 		// mostrar janela
 		pack();
 		setResizable(false);
-		setVisible(true);
 		setLocationRelativeTo(null);
+		setVisible(true);
 		
 		fc = new JFileChooser();
 	}
@@ -375,7 +369,12 @@ void carregarLabirinto() {
     
     private void novoJogo() {
     	/* inicia novo jogo com configuracoes atuais e novo super poder*/
-		maze = new Labirinto(configs.sizeMaze, configs.numberDragons, configs.tactica);
+    	maze = new CustomBuilder(configs.sizeMaze, configs.numberDragons, configs.tactica)
+		.construirLabirinto()
+		.colocarDragao()
+		.colocarEspada()
+		.getLabirinto();
+    	
 		superPowerHasBeenUsed = false;
 		
 		this.setResizable(true); // permite expandir se o tamanha do labirinto aumentou 

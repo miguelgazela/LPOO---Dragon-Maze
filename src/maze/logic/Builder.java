@@ -7,12 +7,10 @@ public abstract class Builder {
 	Labirinto maze = new Labirinto();
 	
 	public Labirinto getLabirinto() {
-		maze.chegouFim = false;
-		maze.dragoes = new Vector<Dragao>();
-		maze.NUM_DRAGOES = 2;
-		
 		return maze;
 	}
+	
+	public abstract Builder colocarHeroi();
 	
 	public abstract Builder colocarDragao();
 	

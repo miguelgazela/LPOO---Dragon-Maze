@@ -3,31 +3,10 @@ package maze.gui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.util.Vector;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import maze.logic.ConfigurationMaze;
-import maze.logic.Coord;
-import maze.logic.Dragao;
-import maze.logic.Espada;
-import maze.logic.Heroi;
-import maze.logic.Labirinto;
+import javax.swing.*;
+import maze.logic.*;
 
 
 public class CreateMaze extends JFrame implements MouseListener, WindowListener, ActionListener {

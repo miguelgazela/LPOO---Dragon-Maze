@@ -2,14 +2,7 @@ package maze.gui;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
+import javax.swing.*;
 import maze.logic.ConfigurationMaze;
 
 public class InitialMenu extends JFrame implements MouseListener {
