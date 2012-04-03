@@ -2,8 +2,14 @@ package maze.gui;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import javax.swing.*;
+
 import maze.logic.ConfigurationMaze;
+import maze.logic.Labirinto;
 
 public class InitialMenu extends JFrame implements MouseListener {
 
@@ -11,6 +17,7 @@ public class InitialMenu extends JFrame implements MouseListener {
 	
 	private JPanel mainMenu;
 	private ConfigurationMaze configs;
+	private static JFileChooser fc;
 
 	public InitialMenu() 
 	{
@@ -44,7 +51,39 @@ public class InitialMenu extends JFrame implements MouseListener {
 	}
 	
 	private void loadGame() {
+		ObjectInputStream is = null;
+
+		fc = new JFileChooser();
+		fc.setAcceptAllFileFilterUsed(false);
+		fc.addChoosableFileFilter(new mazaFileFilter());
 		
+		int returnVal = fc.showOpenDialog(this);
+		Labirinto maze = null;
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) 
+		{
+			try {
+				is = new ObjectInputStream ( new FileInputStream(fc.getSelectedFile().getPath()));
+				maze = (Labirinto) is.readObject();
+				configs.sizeMaze = maze.getSize();
+				configs.tactica = maze.getTactica();
+				configs.numberDragons = maze.getNumDragoes();
+				this.setVisible(false);
+				new GraphicGame(maze, configs);
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			finally { if (is != null)
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} }
+		}
 	}
 	
 	private void createGame() {
@@ -74,29 +113,12 @@ public class InitialMenu extends JFrame implements MouseListener {
 				exitGame();
 			
 	}
-
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void mouseEntered(MouseEvent e) {}
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void mouseExited(MouseEvent e) {}
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void mousePressed(MouseEvent e) {}
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void mouseReleased(MouseEvent e) {}
 }

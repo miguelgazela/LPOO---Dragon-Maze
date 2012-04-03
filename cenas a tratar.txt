@@ -1,13 +1,3 @@
 /* meter a saida como um elemento tambem em vez de uma coordenada */
 
-/* se tentar mudar a directo para a tecla que ja esta para esas direcao deve dar um erro diferente e nao dizer que ela ja esta a ser ocupada */
-
-/* mudar o moverHeroi() para deixar de receber uma string, receber um inteiro. Escusa de andar a comparar strings e assim, mas assim deixa de dar para a parte da consola. Estudar o caso */
-
 /* falta ver os movimentos dos dragoes uns para cima dos outros, acho eu */
-
-/* na janela de mudar as keys, fazer uma imagem em photoshop e utilizar apenas isso com o key listener para ficar mais bonito */
-
-/* tentar meter um modo multiplayer */
-
-/* adicionar um elemento, o escudo, se o jogador o apanhar, consegue resistir a um encontro com o dragao */

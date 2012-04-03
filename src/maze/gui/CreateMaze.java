@@ -17,12 +17,18 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 	private JFrame parent;
 	public Labirinto mazeFinished;
 	private int[][] maze;
+	private int[][] visited;
 	
 	private JPanel labirinto;
 	private JPanel icons;
 	private JLabel currentIconLabel;
 	
 	private static final int CHAO_CONSTRUIR = 9;
+	private static final int OUT_OF_BOUNDS = 20;
+	private static final int NOT_VISITED = 0;
+	private static final int VISITED = 1;
+	
+	private boolean foundTheExit;
 	
 	private Heroi hero;
 	private boolean heroPlaced, exitPlaced, swordPlaced;
@@ -51,6 +57,7 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 		
 		this.configs = configs;
 		this.parent = parent;
+		parent.setVisible(false);
 		
 		dragons = new Vector<Dragao>();
 		
@@ -65,10 +72,9 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 		pack();
 		setLocationRelativeTo(null);
 		setResizable(false);
-		parent.setVisible(false);
 		this.addWindowListener(this);
 		if (instructionsIsON)
-			new CreateMazeInstructions();
+			new CreateMazeInstructions(this);
 		setVisible(true);
 	}
 
@@ -94,7 +100,7 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 		private static final long serialVersionUID = -6595176294244544775L;
 		private JPanel instructions;
 
-		public CreateMazeInstructions() {
+		public CreateMazeInstructions(CreateMaze parent) {
 			super(parent ,"How to create a custom maze", true);
 			setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 			
@@ -113,9 +119,9 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-			this.setVisible(false);
+			setVisible(false);
 		}
-
+		
 		@Override
 		public void mouseEntered(MouseEvent arg0) {}
 		@Override
@@ -373,8 +379,33 @@ private void loadMazeLabels() {
 				if (!okToPlace && !errorDisplayed)
 					JOptionPane.showMessageDialog(null, "You can't place the dragon there!", "", JOptionPane.ERROR_MESSAGE);
 			}
-			else
+			else // currentBlock is wall
 			{
+				if (heroPlaced && hero.getPos().x == xCell && hero.getPos().y == yCell)
+				{
+					heroPlaced = false;
+					lHero.setEnabled(true);
+				}
+				else if (exitPlaced && exit.x == xCell && exit.y == yCell)
+				{
+					exitPlaced = false;
+					lClosedExit.setEnabled(true);
+				}
+				else if (swordPlaced && sword.getPos().x == xCell && sword.getPos().y == yCell)
+				{
+					swordPlaced = false;
+					lSword.setEnabled(true);
+				}
+				else
+				{
+					for (int i = 0; i < dragons.size(); i++)
+						if (dragons.get(i).getPos().x == xCell && dragons.get(i).getPos().y == yCell)
+						{
+							dragons.remove(i);
+							lDragon.setEnabled(true);
+						}
+				}
+					
 				((JLabel)e.getSource()).setIcon(currentIcon);
 				maze[yCell][xCell] = Labirinto.PAREDE;
 			}
@@ -447,16 +478,30 @@ private void loadMazeLabels() {
 		
 		if (e.getActionCommand() == "useThis")
 		{
-			if (heroPlaced && swordPlaced && exitPlaced && (dragons.size() == configs.numberDragons))
-				finishMaze();
+			initializeVisited();
+			if (findExit(hero.getPos().x, hero.getPos().y))
+			{
+				if (heroPlaced && swordPlaced && exitPlaced && (dragons.size() == configs.numberDragons))
+					finishMaze();
+				else
+					JOptionPane.showMessageDialog(null, "There are elements missing from the maze. Complete it!", "", JOptionPane.ERROR_MESSAGE);
+			}
 			else
-				JOptionPane.showMessageDialog(null, "There are elements missing from the maze. Complete it!", "", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "This maze is impossible to complete! Try a different one.", "", JOptionPane.ERROR_MESSAGE);
 		}
 		else if (e.getActionCommand() == "clearMaze")
 		{
 			initMaze();
 			initOuterWalls();
 			initMazePanel();
+			dragons.clear();
+			heroPlaced = false;
+			exitPlaced = false;
+			swordPlaced = false;
+			lHero.setEnabled(true);
+			lDragon.setEnabled(true);
+			lClosedExit.setEnabled(true);
+			lSword.setEnabled(true);
 		}
 		else if (e.getActionCommand() == "instructionsSwitch")
 		{
@@ -533,4 +578,82 @@ private void loadMazeLabels() {
 	public void windowIconified(WindowEvent arg0) {}
 	@Override
 	public void windowOpened(WindowEvent arg0) {}
+	
+	int getMazeValue(int x, int y) {
+		return maze[y][x];
+	}
+
+	int goRight(int x, int y) {
+		if ( x == (configs.sizeMaze-1) )
+			return OUT_OF_BOUNDS;
+		return (getMazeValue(x + 1, y));
+	}
+
+	int goLeft(int x, int y) {
+		if ( x == 0)
+			return OUT_OF_BOUNDS;
+		return (getMazeValue(x - 1, y));
+	}
+
+	int goUp(int x, int y) {
+		if (y == 0)
+			return OUT_OF_BOUNDS;
+		return (getMazeValue(x, y - 1));
+	}
+
+	int goDown(int x, int y) {
+		if ( y == (configs.sizeMaze-1))
+			return OUT_OF_BOUNDS;
+		return (getMazeValue(x, y + 1));
+	}
+
+	private boolean findExit(int x, int y)
+	{
+		if (getMazeValue(x,y) == Labirinto.SAIDA ) // encontrou a saida
+		{
+			foundTheExit = true;
+			return true;
+		}
+		else
+		{
+			visited[y][x] = VISITED; // marca como visitado
+
+			// vai para a direita
+			if (goRight(x,y) != OUT_OF_BOUNDS && goRight(x,y) != Labirinto.PAREDE && visited[y][x+1] == NOT_VISITED)
+				findExit(x+1,y);
+
+			if(foundTheExit)
+				return true;
+
+			// vai para a esquerda
+			if (goLeft(x,y) != OUT_OF_BOUNDS && goLeft(x,y) != Labirinto.PAREDE && visited[y][x-1] == NOT_VISITED)
+				findExit(x-1,y);
+
+			if(foundTheExit)
+				return true;
+
+			// vai para cima
+			if (goUp(x,y) != OUT_OF_BOUNDS && goUp(x,y) != Labirinto.PAREDE && visited[y-1][x] == NOT_VISITED)
+				findExit(x,y-1);
+
+			if(foundTheExit)
+				return true;
+
+			// vai para baixo
+			if (goDown(x,y) != OUT_OF_BOUNDS && goDown(x,y) != Labirinto.PAREDE && visited[y+1][x] == NOT_VISITED)
+				findExit(x,y+1);
+
+			if(foundTheExit)
+				return true;
+			return false;
+		}
+	}
+	
+	private void initializeVisited() {
+		visited = new int[configs.sizeMaze][configs.sizeMaze];
+
+		for (int i = 0; i < configs.sizeMaze; i++)
+			for (int j = 0; j < configs.sizeMaze; j++)
+				visited[i][j] = NOT_VISITED;
+	}
 }

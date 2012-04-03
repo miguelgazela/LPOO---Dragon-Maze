@@ -29,10 +29,14 @@ public class ConfigurationMaze implements Serializable {
 		keys[LEFT] = KeyEvent.VK_LEFT;
 	}
 	
-	public boolean keyAlreadyUsed (KeyEvent e) {
+	public boolean keyAlreadyUsed (int option, KeyEvent e) {
 		
-		for (int key : keys)
+		/*for (int key : keys)
 			if (key == e.getKeyCode())
+				return true;*/
+		
+		for (int i = 0; i < keys.length; i++)
+			if (keys[i] == e.getKeyCode() && i != option)
 				return true;
 		return false;
 	}

@@ -111,8 +111,8 @@ public class GraphicGame extends JFrame implements Serializable {
        	barLoadGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.ALT_MASK));
        	JMenuItem barExitGame = new JMenuItem ("Exit", KeyEvent.VK_ESCAPE);
        	barExitGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, ActionEvent.ALT_MASK));
-       	JMenuItem barCreateMaze = new JMenuItem("Create maze");
-       	// falta o acelerador do CreateMaze
+       	JMenuItem barCreateMaze = new JMenuItem("Create maze", KeyEvent.VK_B);
+       	barCreateMaze.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.ALT_MASK));
        	JMenuItem barConfigurations = new JMenuItem("Configurations");
        	barConfigurations.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.ALT_MASK));
        	JMenuItem barZoomIn = new JMenuItem("Zoom In");
@@ -134,6 +134,7 @@ public class GraphicGame extends JFrame implements Serializable {
        	barSaveGame.addActionListener(new saveGameListener(this));
        	barLoadGame.addActionListener(new loadGameListener(this));
        	barExitGame.addActionListener(new ExitListener());
+       	barCreateMaze.addActionListener(new createMazeListener(this));
        	barConfigurations.addActionListener(new configurationsListener(this));
        	barZoomIn.addActionListener(new zoomInListener(this));
        	barZoomOut.addActionListener(new zoomOutListener(this));
@@ -599,6 +600,20 @@ void carregarLabirinto() {
 			new Configuration(f, configs);
 			labirinto.requestFocus();
 		}
+	}
+	
+	private class createMazeListener implements ActionListener
+	{
+		private JFrame f;
+		
+		public createMazeListener (JFrame f) {
+			this.f = f;
+		}
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			new CreateMaze(f, configs);
+		}
+		
 	}
 	
 	private class zoomInListener implements ActionListener

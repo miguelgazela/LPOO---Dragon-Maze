@@ -149,7 +149,7 @@ public class Configuration extends JDialog implements ChangeListener {
 						|| (keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z)
 							|| (keyCode >= KeyEvent.VK_LEFT && keyCode <= KeyEvent.VK_DOWN) )
 				{
-					if (temp.keyAlreadyUsed(e))
+					if (temp.keyAlreadyUsed(option, e))
 						JOptionPane.showMessageDialog(null, "That key is already being used!", "", JOptionPane.ERROR_MESSAGE);
 					else
 					{
