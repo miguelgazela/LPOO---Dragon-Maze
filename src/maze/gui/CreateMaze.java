@@ -1,7 +1,6 @@
 package maze.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,17 +10,18 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Vector;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
 import maze.logic.ConfigurationMaze;
 import maze.logic.Coord;
 import maze.logic.Dragao;
@@ -31,6 +31,8 @@ import maze.logic.Labirinto;
 
 
 public class CreateMaze extends JFrame implements MouseListener, WindowListener, ActionListener {
+	
+	private static final long serialVersionUID = 3981003364342962426L;
 	
 	private ConfigurationMaze configs;
 	private JFrame parent;
@@ -53,6 +55,10 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 	private JButton useThis;
 	private JButton clearMaze;
 	private JButton saveMaze;
+	
+	private JMenuBar menuBar;
+	private JMenuItem barInstructions;
+	private static boolean instructionsIsON = true;
 
 	private Icon currentIcon;
 	private String currentBlockName;
@@ -74,7 +80,7 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 		initOuterWalls();
 		loadMazeLabels();
 		initIconBar();
-		
+		initMenuBar();
 		
 		// mostrar janela
 		pack();
@@ -82,8 +88,26 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 		setResizable(false);
 		parent.setVisible(false);
 		this.addWindowListener(this);
-		new CreateMazeInstructions();
+		if (instructionsIsON)
+			new CreateMazeInstructions();
 		setVisible(true);
+	}
+
+	private void initMenuBar() {
+		
+		menuBar = new JMenuBar();		
+		JMenu menu = new JMenu("Options");
+		
+		if (instructionsIsON)
+			barInstructions = new JMenuItem("Turn instructions OFF");
+		else
+			barInstructions = new JMenuItem("Turn instructions ON");
+		barInstructions.setActionCommand("instructionsSwitch");
+		barInstructions.addActionListener(this);
+		
+		menu.add(barInstructions);
+		menuBar.add(menu);
+		this.setJMenuBar(menuBar);
 	}
 
 	private class CreateMazeInstructions extends JDialog implements MouseListener
@@ -115,13 +139,10 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {}
-
 		@Override
 		public void mouseExited(MouseEvent arg0) {}
-
 		@Override
 		public void mousePressed(MouseEvent arg0) {}
-
 		@Override
 		public void mouseReleased(MouseEvent arg0) {}
 	}
@@ -457,6 +478,19 @@ private void loadMazeLabels() {
 			initMaze();
 			initOuterWalls();
 			initMazePanel();
+		}
+		else if (e.getActionCommand() == "instructionsSwitch")
+		{
+			if (instructionsIsON)
+			{
+				barInstructions.setText("Turn instructions ON");
+				instructionsIsON = false;
+			}
+			else
+			{
+				barInstructions.setText("Turn instructions OFF");
+				instructionsIsON = true;
+			}
 		}
 		else
 		{
