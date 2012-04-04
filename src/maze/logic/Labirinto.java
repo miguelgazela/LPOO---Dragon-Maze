@@ -237,7 +237,6 @@ public class Labirinto implements Serializable {
 		}
 	}
 	
-	
 	public void pertoDragao()
 	{
 		/* percorre todos os dragoes existentes no labirinto */

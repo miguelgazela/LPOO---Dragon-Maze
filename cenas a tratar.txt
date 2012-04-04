@@ -1,3 +1,0 @@
-/* meter a saida como um elemento tambem em vez de uma coordenada */
-
-/* falta ver os movimentos dos dragoes uns para cima dos outros, acho eu */

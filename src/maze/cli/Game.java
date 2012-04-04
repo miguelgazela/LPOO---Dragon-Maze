@@ -9,26 +9,20 @@ import maze.logic.PreDefBuilder;
 
 public class Game {
 	
-	private static GraphicGame g;
-	
 	public static void main(String[] args)
 	{
-		InitialMenu m = new InitialMenu();
-	}
-	
-	public static void main2(String[] args)
-	{
 		// declaracao de variaveis e inicializacao de objetos necessarios
-		
 		int tamanho = 0, opcao = 0, tactica = 0;
 		String str = new String("");
 		boolean escolhaValida = false;
 		Scanner input = new Scanner(System.in);
-		
 		Labirinto maze;
 		
-		// escolha do labirinto pre-definido ou do automatico com tamanho variavel
+		// iniciar interface grafica
+		new InitialMenu();
 		
+		// continuar com o modo consola
+		// escolha do labirinto pre-definido ou do automatico com tamanho variavel
 		do {
 			System.out.println("Deseja jogar com o labirinto pre-definido, ou com um gerado automaticamente de tamanho variavel?\n(pre/auto): ");
 			str = input.next();
@@ -51,7 +45,6 @@ public class Game {
 		escolhaValida = false;
 		
 		// escolha da tactica que o jogador pretende usar
-		
 		do {
 			System.out.println("\nQue tactica deseja utilizar? (digite o numero da opcao desejada)\n\n1 - Dragao sempre acordado\n2 - Dragao sempre adormecido\n3 - Misto das duas anteriores");
 			str = input.next();
@@ -71,7 +64,6 @@ public class Game {
 		escolhaValida = false;
 		
 		// escolha do tamanho do labirinto
-		
 		if (opcao == 1)
 			do {
 				System.out.println("\nQue tamanho deve ter o labirinto? (aconselhamos um valor superior a 15 para uma melhor experiencia)");
@@ -87,7 +79,7 @@ public class Game {
 				
 			} while(!escolhaValida);
 		
-		if (opcao == 2)
+		if (opcao == 2) // quer jogar com labirinto pre-definido
 		{
 			maze = new PreDefBuilder(tactica)
 					.construirLabirinto()
@@ -97,7 +89,7 @@ public class Game {
 					.colocarSaida()
 					.getLabirinto();
 		}
-		else
+		else // quer jogar com um labirinto de tamanho variavel
 		{
 			maze = new CustomBuilder(tamanho, 2, tactica)
 					.construirLabirinto()
@@ -105,8 +97,8 @@ public class Game {
 					.colocarEspada()
 					.getLabirinto();
 		}
-		// motor do jogo
 		
+		// motor do jogo
 		do {
 			clearConsole();
 			System.out.println(maze);
@@ -114,7 +106,6 @@ public class Game {
 			escolhaValida = false;
 
 			// escolha da direcao que quer seguir
-			
 			while (!escolhaValida)
 			{
 				System.out.println("\nQue direcao quer seguir?");
@@ -130,7 +121,6 @@ public class Game {
 			}
 			
 			// movimento do heroi e do dragao consoante tactica utilizada
-			
 			maze.moverHeroi(str);
 			
 			if (!maze.dragoesTodosMortos())
@@ -140,13 +130,11 @@ public class Game {
 					maze.moverDragao("");
 				maze.pertoDragao();
 			}
-			
 			escolhaValida = false;
 			
 		} while (!maze.getChegouFim() && !maze.getHeroi().estaMorto());
 		
 		// terminou o jogo
-		
 		clearConsole();
 		System.out.println(maze);
 		
@@ -160,8 +148,7 @@ public class Game {
 			System.out.println("\nAproximaste-te demasiado do dragao, ficaste queimado!");
 	}
 
-	private static void clearConsole() 
-	{
+	private static void clearConsole() {
 		for(int i = 0 ; i < 50 ; i++) 
 			System.out.println();
 	}
