@@ -544,7 +544,7 @@ void carregarLabirinto() {
 			ObjectInputStream is = null;
 
 			fc.setAcceptAllFileFilterUsed(false);
-			fc.addChoosableFileFilter(new mazaFileFilter());
+			fc.addChoosableFileFilter(new MazeFileFilter());
 			
 			int returnVal = fc.showOpenDialog(parent);
 

@@ -88,7 +88,7 @@ public class InitialMenu extends JFrame implements MouseListener {
 //		cria um novo JFileChooser, aplica-lhe um filtro para apenas permitir abrir ficheiros com a extensao correcta
 		fc = new JFileChooser();
 		fc.setAcceptAllFileFilterUsed(false);
-		fc.addChoosableFileFilter(new mazaFileFilter());
+		fc.addChoosableFileFilter(new MazeFileFilter());
 		
 		int returnVal = fc.showOpenDialog(this);
 		Labirinto maze = null;

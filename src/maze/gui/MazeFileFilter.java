@@ -10,7 +10,7 @@ import javax.swing.filechooser.FileFilter;
  * apenas certos ficheiros
  * @author migueloliveira
  */
-public class mazaFileFilter extends FileFilter {
+public class MazeFileFilter extends FileFilter {
 
 	private final static String gameFileExtension = "mzesvgme";
 	
