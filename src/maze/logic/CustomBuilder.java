@@ -1,7 +1,17 @@
 package maze.logic;
 
+/**
+ * Classe que descende de Builder e constroi um Labirinto custom
+ * @author migueloliveira
+ */
 public class CustomBuilder extends Builder {
 
+	/**
+	 * Construtor
+	 * @param tamanho do labirinto a construir
+	 * @param numberDragons que o labirinto ira« conter
+	 * @param tactica que ira ser utilizada no jogo
+	 */
 	public CustomBuilder (int tamanho, int numberDragons, int tactica) {
 		super();
 		maze.tactica = tactica;
@@ -34,7 +44,7 @@ public class CustomBuilder extends Builder {
 			maze.NUM_DRAGOES--;
 		}
 		
-		if (maze.tactica == 2)		// dragoes sempre adormecidos
+		if (maze.tactica == 2)		// os dragoes devem estar adormecidos
 			for (int i = 0; i < maze.dragoes.size(); i++)
 				maze.dragoes.elementAt(i).adormece();
 		
@@ -46,7 +56,7 @@ public class CustomBuilder extends Builder {
 
 		boolean espadaColocada = false;
 
-		while (!espadaColocada) // repete ate colocar a espada 
+		while (!espadaColocada) // repete enquanto a espada nao for colocada
 		{
 			/* calcula uma coordenada random dentro dos valores do labirinto */
 			maze.espada = new Espada(maze.rand.nextInt((maze.size-2))+1, maze.rand.nextInt((maze.size-2))+1);
@@ -66,7 +76,7 @@ public class CustomBuilder extends Builder {
 	public CustomBuilder colocarHeroi() {
 		
 		maze.heroi = new Heroi(0,0);
-		maze.heroi.setPos(maze.rand.nextInt(3)+1, 0);
+		maze.heroi.setPos(maze.rand.nextInt(3)+1, 0); 
 
 		switch(maze.heroi.getPos().x)
 		{
@@ -197,6 +207,11 @@ public class CustomBuilder extends Builder {
 		return this;
 	}
 	
+	/**
+	 * Coloca paredes em forma de 'U' atras da posicao atual e avanca para a proxima
+	 * @param pos posicao atual
+	 * @param next proxima posicao
+	 */
 	private void construirParedes(Coord pos, Coord next) {
 
 		Coord t = new Coord();
@@ -380,10 +395,12 @@ public class CustomBuilder extends Builder {
 		}
 	}
 
-	/*
+	/**
 	 * Esta funcao ve se a partir da posicao atual existe celulas vazias a 
 	 * exatamente 2 celulas de distancia. Guarda os movimentos validos e retorna
-	 * um deles (random), se nao houver mov. validos retorna uma coordenada nula
+	 * um deles (random), se nao houver mov. validos retorna uma coordenada nula 
+	 * @param pos posicao atual
+	 * @return proxima posicao
 	 */
 	private Coord findParedeFina(Coord pos) {
 
@@ -420,21 +437,26 @@ public class CustomBuilder extends Builder {
 			return moves[maze.rand.nextInt(i)];
 	}
 
-	/*
+	/**
 	 * Esta funcao tem duas condicoes
 	 * - a posicao deve ser um caminho (0)
 	 * - o novo movimento deve ser diferente do antigo para 
 	 * 	 nao andarmos para tras e para a frente no mesmo sitio
+	 * @param pos posicao atual
+	 * @param back posicao exactamente anterior
+	 * @return proxima coordenada
 	 */
 	private Coord andarBack(Coord pos, Coord back) {
 
 		Coord t;
 		Coord moves[] = new Coord[4]; 	// array de movimentos validos
 
-		int numMovimentosValidos = 0;
+		int numMovimentosValidos = 0; // numero de movimentos validos
 
 		t = pos.move(0, -1); 
 
+		// verifica quais os movimentos validos
+		
 		if (maze.labirinto[t.y][t.x] == 0 && t != pos)
 		{
 			moves[numMovimentosValidos] = t;
@@ -474,33 +496,39 @@ public class CustomBuilder extends Builder {
 			return moves[maze.rand.nextInt(numMovimentosValidos)];
 	}
 
-	/* 
+	/**
 	 * Esta funcao procura nas 4 direcoes possiveis e se as condicoes
 	 * sao cumpridas, ele escolhe uma dessas direcoes ao calhas.
 	 * - Deve ser uma celula vazia (-1)
 	 * - Deve estar dentro do labirinto
 	 * - Se estamos numa coluna/linha impar ou se nao e uma mudanca da direcao atual (para nao ter escadas, ou paredes duplas)
+	 * @param pos atual
+	 * @return proxima coordenada
 	 */
 	private Coord proximoMove(Coord pos) {
 
 		Coord moves[] = new Coord[3]; 	// movimentos possiveis
 		int numMovimentosValidos = 0; 
 
+		// para a esquerda
 		if (pos.x > 0 && maze.labirinto[pos.move(-1,0).y][pos.move(-1,0).x] == -1 && ( (pos.y % 2) != 0 || maze.labirinto[pos.move(1,0).y][pos.move(1,0).x] == 0) )
 		{
 			moves[numMovimentosValidos] = pos.move(-1,0);
 			numMovimentosValidos++;
 		}
+		// para a direita
 		if (pos.x < (maze.size-1) && maze.labirinto[pos.move(1,0).y][pos.move(1,0).x] == -1 && ( (pos.y % 2) != 0 || maze.labirinto[pos.move(-1,0).y][pos.move(-1,0).x] == 0 ))
 		{
 			moves[numMovimentosValidos] = pos.move(1,0);
 			numMovimentosValidos++;
 		}
+		// para cima
 		if (pos.y > 0 && maze.labirinto[pos.move(0,-1).y][pos.move(0,-1).x] == -1 && ( (pos.x % 2) != 0 || maze.labirinto[pos.move(0,1).y][pos.move(0,1).x] == 0) )
 		{
 			moves[numMovimentosValidos] = pos.move(0,-1);
 			numMovimentosValidos++;
 		}
+		// para baixo
 		if (pos.y < (maze.size-1) && maze.labirinto[pos.move(0,1).y][pos.move(0,1).x] == -1 && ( (pos.x % 2) != 0 || maze.labirinto[pos.move(0,-1).y][pos.move(0,-1).x] == 0))
 		{
 			moves[numMovimentosValidos] = pos.move(0,1);

@@ -1,7 +1,15 @@
 package maze.logic;
 
+/**
+ * Classe que descende de Builder e constroi um Labirinto pre-definido
+ * @author migueloliveira
+ */
 public class PreDefBuilder extends Builder {
 	
+	/**
+	 * Constructor
+	 * @param tactica que ira ser utilizada no jogo
+	 */
 	public PreDefBuilder (int tactica) {
 		super();
 		maze.tactica = tactica;
@@ -10,7 +18,9 @@ public class PreDefBuilder extends Builder {
 	@Override
 	public PreDefBuilder colocarDragao() {
 		
+		// instantia um Dragao na posicao pre-definida
 		Dragao dragao = new Dragao(1, 3, false);
+		// adiciona-o ao labirinto
 		maze.dragoes.add(dragao);
 		maze.labirinto[dragao.getPos().y][dragao.getPos().x] = Labirinto.DRAGAO;
 		if (maze.tactica == 2) // dragao adormecido
@@ -20,7 +30,7 @@ public class PreDefBuilder extends Builder {
 
 	@Override
 	public PreDefBuilder colocarEspada() {
-		
+		// coloca a Espada na posicao pre-definida
 		maze.espada = new Espada(1,8);
 		maze.labirinto[maze.espada.getPos().y][maze.espada.getPos().x] = Labirinto.ESPADA;
 		return this;
@@ -28,14 +38,14 @@ public class PreDefBuilder extends Builder {
 	
 	@Override
 	public PreDefBuilder colocarHeroi() {
-		
+		// coloca o Heroi na posicao pre-definida
 		maze.heroi = new Heroi(1,1);
 		maze.labirinto[maze.heroi.getPos().y][maze.heroi.getPos().x] = Labirinto.HEROI;
 		return this;
 	}
 	
 	public PreDefBuilder colocarSaida() {
-		
+		// coloca a Saida na posicao pre-definida
 		maze.Saida.x = 9; maze.Saida.y = 5;
 		maze.labirinto[maze.Saida.y][maze.Saida.x] = Labirinto.SAIDA;
 		return this;
@@ -44,6 +54,7 @@ public class PreDefBuilder extends Builder {
 	@Override
 	public PreDefBuilder construirLabirinto() {
 		
+		// inicializa o labirinto com o tamanho pre-definido
 		maze.size = 10;
 		maze.labirinto = new int[maze.size][maze.size];
 
