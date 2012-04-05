@@ -7,7 +7,10 @@ import maze.gui.GraphicGame;
 import maze.sound.dragonDies;
 import maze.sound.soundPickSword;
 
-
+/**
+ * Representacao de um labirinto
+ * @author migueloliveira
+ */
 public class Labirinto implements Serializable {
 	
 	private static final long serialVersionUID = -7227443685456744007L;
@@ -38,13 +41,25 @@ public class Labirinto implements Serializable {
 	
 	protected boolean chegouFim;
 	
+	/**
+	 * Construtor
+	 */
 	public Labirinto() {
 		chegouFim = false;
 		dragoes = new Vector<Dragao>();
 	}
 	
+	/**
+	 * Construtor
+	 * @param configs Configuracao a utilizar
+	 * @param maze labirinto ja construido
+	 * @param hero heroi ja colocado
+	 * @param sword espada ja colocada
+	 * @param dragoes dragoes ja colocados
+	 */
 	public Labirinto(ConfigurationMaze configs, int[][] maze, Heroi hero, Espada sword, Vector<Dragao> dragoes) {
 		this();
+		// inicializa as variaveis para igualar as que recebe
 		labirinto = maze;
 		this.tactica = configs.tactica;
 		this.size = configs.sizeMaze;
@@ -89,9 +104,15 @@ public class Labirinto implements Serializable {
 		return str;
 	}
 	
+	/**
+	 * Devolve um Dragao que esteja na coordenda
+	 * recebida ou null se nenhum estiver la colodado
+	 * @param y linha do labirinto
+	 * @param x coluna do labirinto
+	 * @return Dragao
+	 */
 	public Dragao getDragaoAt(int y, int x) 
 	{	
-		/* verifica se algum dragao esta na posicao desejada, se sim devolve-o */
 		for (Dragao d : dragoes)
 		{
 			Coord posDragao = d.getPos();
@@ -101,6 +122,10 @@ public class Labirinto implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Recebe uma direccao e move o Heroi nessa direccao
+	 * @param direcaoStr direcao escolhida pelo jogador
+	 */
 	public void moverHeroi(String direcaoStr)
 	{
 		Coord temp = new Coord();
@@ -153,7 +178,10 @@ public class Labirinto implements Serializable {
 		}
 	}
 	
-	
+	/**
+	 * Move o Dragao numa direcao random ou mantem a sua posicao
+	 * @param direcaoStr direcao para testes ao movimento do Dragao
+	 */
 	public void moverDragao(String direcaoStr)
 	{
 		Coord temp = new Coord();
@@ -237,6 +265,10 @@ public class Labirinto implements Serializable {
 		}
 	}
 	
+	/**
+	 * Verifica se o Heroi e o Dragao estao
+	 * em celulas adjacentes ou na mesma celula
+	 */
 	public void pertoDragao()
 	{
 		/* percorre todos os dragoes existentes no labirinto */
@@ -276,14 +308,26 @@ public class Labirinto implements Serializable {
 		}
 	}
 
+	/**
+	 * Verifica se o Heroi chegou ao fim do labirinto
+	 * @return boolean
+	 */
 	public boolean getChegouFim() {
 		return chegouFim;
 	}
 	
+	/**
+	 * Retorna o Heroi do Labirinto
+	 * @return Heroi
+	 */
 	public Heroi getHeroi() {
 		return heroi;
 	}
 
+	/**
+	 * Avalia a tactica utilizada para 
+	 * ver se deve adormecer os dragoes
+	 */
 	public void avaliaTactica()
 	{
 		if (tactica == 3)											// movimentacao aleatoria intercalada com dormir
@@ -312,32 +356,63 @@ public class Labirinto implements Serializable {
 			}
 	}
 
+	/**
+	 * Verifica se os dragoes foram todos mortos
+	 * @return boolean
+	 */
 	public boolean dragoesTodosMortos() {
 		return dragoes.isEmpty();
 	}
 
+	/**
+	 * Verifica se os dragoes estao adormecidos
+	 * @return boolean
+	 */
 	public boolean dragoesAdormecidos() {
-		if (dragoes.elementAt(0).estaAdormecido())
+		if (dragoes.elementAt(0).estaAdormecido()) // os dragoes estao todos adormecidos ao mesmo tempo
 			return true;
 		return false;
 	}
 
+	/**
+	 * Devolve o tamanho do labirinto
+	 * @return int
+	 */
 	public int getSize() {
 		return size;
 	}
 
+	/**
+	 * Devolve o array que representa o labirinto
+	 * @return int[][]
+	 */
 	public int[][] getLabirinto() {
 		return labirinto;
 	}
 
+	/**
+	 * Define uma posicao do labirinto como sendo
+	 * um elemento recebido
+	 * @param type elemento que ira ocupar a posicao
+	 * @param y linha do labirinto
+	 * @param x coluna do labirinto
+	 */
 	public void setPos(int type, int y, int x) {
 		labirinto[y][x] = type;
 	}
 
+	/**
+	 * Retorna a tactica utilizada
+	 * @return int
+	 */
 	public int getTactica() {
 		return tactica;
 	}
 
+	/**
+	 * Retorna o numero de dragoes no labirinto
+	 * @return int
+	 */
 	public int getNumDragoes() {
 		return dragoes.size();
 	}
