@@ -8,33 +8,27 @@ import maze.logic.*;
 import maze.sound.*;
 
 
+/**
+ * Classe principal para criar uma interface grafica para jogar
+ * @author migueloliveira
+ */
 public class GraphicGame extends JFrame implements Serializable {
 
 	private static final long serialVersionUID = 7387239851496757254L;
 
 	private Labirinto maze;
 	
-	private JPanel buttonPanel;
-	private JPanel labirinto = null;
+	private JPanel buttonPanel, labirinto = null;
 	
-	private JButton exitButton;
-	private JButton newGame;
-	private JButton gameConfigurations;
-	private JButton zoomIn;
-	private JButton zoomOut;
-	private JButton superPower;
-	private JButton howToPlay;
-	private JButton sound;
+	private JButton exitButton, newGame, gameConfigurations, zoomIn, zoomOut, superPower, howToPlay, sound;
 	
 	private JMenuBar menuBar;
-	private JMenuItem barSound;
-	private JMenuItem barButtons;
+	private JMenuItem barSound, barButtons;
 	
 	private static ConfigurationMaze configs;
 	private static JFileChooser fc;
 	
-	private boolean superPowerHasBeenUsed;
-	private boolean buttonPanelIsVisible = true;
+	private boolean superPowerHasBeenUsed, buttonPanelIsVisible = true;
 	
 	public static boolean soundIsOn = true;
 	
@@ -45,22 +39,34 @@ public class GraphicGame extends JFrame implements Serializable {
 	private Icon wall20, ground20, dragon20, sleepDragon20, hero20, heroArmed20, exit20, closedExit20, sword20, swordProtected20;
 	private Icon wall15, ground15, dragon15, sleepDragon15, hero15, heroArmed15, exit15, closedExit15, sword15, swordProtected15;
 	
+	/**
+	 * Cria uma janela e apresenta uma janela, com um Labirinto construido com a configuracao recebida
+	 * @param configs
+	 */
 	public GraphicGame (ConfigurationMaze configs) 
 	{
+		// inicializa janela
 		super("Projeto Guiado - LPOO - by Miguel Oliveira (ei10076@fe.up.pt)");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		GraphicGame.configs = configs;
 		
+		// constroi novo Labirinto custom
 		maze = new CustomBuilder(configs.sizeMaze, configs.numberDragons, configs.tactica)
 		.construirLabirinto()
 		.colocarDragao()
 		.colocarEspada()
 		.getLabirinto();
 
+		// cria e apresenta a janela
 		createShowGUI();
 	}
 	
+	/**
+	 * Cria um novo jogo com as configuracoes e o Labirinto recebidos
+	 * @param customMaze Labirinto criado pelo jogador
+	 * @param configs Configuracoes do labirinto recebido
+	 */
 	public GraphicGame (Labirinto customMaze, ConfigurationMaze configs) 
 	{
 		super("Projeto Guiado - LPOO - by Miguel Oliveira (ei10076@fe.up.pt)");
@@ -70,7 +76,9 @@ public class GraphicGame extends JFrame implements Serializable {
 		createShowGUI();
 	}
 	
-	
+	/**
+	 * Cria e apresenta a janela de jogo
+	 */
 	private void createShowGUI() {
 		// definir o layout da janela principal com horizontal gap de 0 e vertical gap de 5
 		getContentPane().setLayout(new BorderLayout(0,0));
@@ -91,8 +99,12 @@ public class GraphicGame extends JFrame implements Serializable {
 		fc = new JFileChooser();
 	}
 	
+	/**
+	 * Inicializa a barra de ferramentas da janela
+	 */
 	private void initMenuBar() {
 
+		// cria barra de ferramentas e seus menus
 		menuBar = new JMenuBar();
 		
         JMenu menu = new JMenu("Menu");
@@ -169,21 +181,9 @@ public class GraphicGame extends JFrame implements Serializable {
         this.setJMenuBar(menuBar);
 	}
 
-	private void addWidgets(Container contentPane) {
-		
-		// adicionar os botoes ao painel
-		buttonPanel.add(howToPlay);
-		buttonPanel.add(newGame);
-		buttonPanel.add(gameConfigurations);
-		buttonPanel.add(zoomIn);
-		buttonPanel.add(zoomOut);
-		buttonPanel.add(superPower);
-		buttonPanel.add(exitButton);
-		buttonPanel.add(sound);
-		
-		contentPane.add(buttonPanel, BorderLayout.SOUTH);
-	}
-
+	/**
+	 * Cria o painel de botoes e os botoes que irao ser usados
+	 */
 	void createWidgets() {
 		
 		// criar paineis que constituem a janela principal do jogo
@@ -227,52 +227,77 @@ public class GraphicGame extends JFrame implements Serializable {
 		carregarLabirinto();
 	}
 	
-private void initIcons() {
-	// inicializar os icones 25x25
-	questionMark = new ImageIcon("images/questionMark.png");
-	wall = new ImageIcon("images/wall.png");
-	ground = new ImageIcon("images/ground.png");
-	dragon = new ImageIcon("images/dragon.png");
-	sleepDragon = new ImageIcon("images/dragonSleep.png");
-	hero = new ImageIcon("images/hero.png");
-	heroArmed = new ImageIcon("images/heroArmed.png");
-	exit = new ImageIcon("images/exit.png");
-	closedExit = new ImageIcon("images/closeExit.png");
-	sword = new ImageIcon("images/sword.png");
-	swordProtected = new ImageIcon("images/swordProtected.png");
-	
-	// inicializar os icones 20x20
-	wall20 = new ImageIcon("images/wall20.png");
-	ground20 = new ImageIcon("images/ground20.png");
-	dragon20 = new ImageIcon("images/dragon20.png");
-	sleepDragon20 = new ImageIcon("images/dragonSleep20.png");
-	hero20 = new ImageIcon("images/hero20.png");
-	heroArmed20 = new ImageIcon("images/heroArmed20.png");
-	exit20 = new ImageIcon("images/exit20.png");
-	closedExit20 = new ImageIcon("images/closeExit20.png");
-	sword20 = new ImageIcon("images/sword20.png");
-	swordProtected20 = new ImageIcon("images/swordProtected20.png");
-	
-	// inicializar os icones 15x15
-	wall15 = new ImageIcon("images/wall15.png");
-	ground15 = new ImageIcon("images/ground15.png");
-	dragon15 = new ImageIcon("images/dragon15.png");
-	sleepDragon15 = new ImageIcon("images/dragonSleep15.png");
-	hero15 = new ImageIcon("images/hero15.png");
-	heroArmed15 = new ImageIcon("images/heroArmed15.png");
-	exit15 = new ImageIcon("images/exit15.png");
-	closedExit15 = new ImageIcon("images/closeExit15.png");
-	sword15 = new ImageIcon("images/sword15.png");
-	soundOn = new ImageIcon("images/soundOn.png");
-	soundOff = new ImageIcon("images/soundOff.png");
-	swordProtected15 = new ImageIcon("images/swordProtected15.png");
-}
-
-void carregarLabirinto() {
+	/**
+	 * Adiciona os botoes criados 'a janela principal
+	 * @param contentPane Contentor da janela principal
+	 */
+	private void addWidgets(Container contentPane) {
 		
+		// adicionar os botoes ao painel
+		buttonPanel.add(howToPlay);
+		buttonPanel.add(newGame);
+		buttonPanel.add(gameConfigurations);
+		buttonPanel.add(zoomIn);
+		buttonPanel.add(zoomOut);
+		buttonPanel.add(superPower);
+		buttonPanel.add(exitButton);
+		buttonPanel.add(sound);
+		
+		contentPane.add(buttonPanel, BorderLayout.SOUTH);
+	}
+
+	/**
+	 * Inicializa os icones utilizados na janela principal
+	 */
+	private void initIcons() {
+		// inicializar os icones 25x25
+		questionMark = new ImageIcon("images/questionMark.png");
+		wall = new ImageIcon("images/wall.png");
+		ground = new ImageIcon("images/ground.png");
+		dragon = new ImageIcon("images/dragon.png");
+		sleepDragon = new ImageIcon("images/dragonSleep.png");
+		hero = new ImageIcon("images/hero.png");
+		heroArmed = new ImageIcon("images/heroArmed.png");
+		exit = new ImageIcon("images/exit.png");
+		closedExit = new ImageIcon("images/closeExit.png");
+		sword = new ImageIcon("images/sword.png");
+		swordProtected = new ImageIcon("images/swordProtected.png");
+
+		// inicializar os icones 20x20
+		wall20 = new ImageIcon("images/wall20.png");
+		ground20 = new ImageIcon("images/ground20.png");
+		dragon20 = new ImageIcon("images/dragon20.png");
+		sleepDragon20 = new ImageIcon("images/dragonSleep20.png");
+		hero20 = new ImageIcon("images/hero20.png");
+		heroArmed20 = new ImageIcon("images/heroArmed20.png");
+		exit20 = new ImageIcon("images/exit20.png");
+		closedExit20 = new ImageIcon("images/closeExit20.png");
+		sword20 = new ImageIcon("images/sword20.png");
+		swordProtected20 = new ImageIcon("images/swordProtected20.png");
+
+		// inicializar os icones 15x15
+		wall15 = new ImageIcon("images/wall15.png");
+		ground15 = new ImageIcon("images/ground15.png");
+		dragon15 = new ImageIcon("images/dragon15.png");
+		sleepDragon15 = new ImageIcon("images/dragonSleep15.png");
+		hero15 = new ImageIcon("images/hero15.png");
+		heroArmed15 = new ImageIcon("images/heroArmed15.png");
+		exit15 = new ImageIcon("images/exit15.png");
+		closedExit15 = new ImageIcon("images/closeExit15.png");
+		sword15 = new ImageIcon("images/sword15.png");
+		soundOn = new ImageIcon("images/soundOn.png");
+		soundOff = new ImageIcon("images/soundOff.png");
+		swordProtected15 = new ImageIcon("images/swordProtected15.png");
+	}
+
+	/**
+	 * Apresenta graficamente na janela principal o array que constitui o labirinto
+	 */
+	void carregarLabirinto() {
+
 		if (labirinto != null) 							// se ja tem um labirinto carregado
 			getContentPane().remove(labirinto);
-		
+
 		labirinto = new JPanel(new GridLayout(0, 1));	// painel com uma coluna
 
 		// carregar array do labirinto
@@ -359,17 +384,22 @@ void carregarLabirinto() {
 		}
 		labirinto.setFocusable(true);
 		labirinto.addKeyListener(new movimentListener());
-		
+
 		getContentPane().add(labirinto, BorderLayout.NORTH);
 	}
-	
-	/* invoca updateUI() para todos os subcomponentes do frame */
-    private void updateUI() {
-        SwingUtilities.updateComponentTreeUI(this);
-    }
-    
+
+	/**
+	 * Invoca o updateUI() para todos os subcomponentes da janela principal
+	 */
+	private void updateUI() {
+		SwingUtilities.updateComponentTreeUI(this);
+	}
+
+	/**
+	 * Inicia um jogo novo utilizando as configuracoes atuais
+	 */
     private void novoJogo() {
-    	/* inicia novo jogo com configuracoes atuais e novo super poder*/
+    	// cria novo Labirinto
     	maze = new CustomBuilder(configs.sizeMaze, configs.numberDragons, configs.tactica)
 		.construirLabirinto()
 		.colocarDragao()
@@ -386,6 +416,9 @@ void carregarLabirinto() {
 		labirinto.requestFocus();
 	}
     
+    /**
+     * Termina o jogo quando o Heroi ganha ou perde.
+     */
     private void acabouJogo() {
 
     	int option;
@@ -427,6 +460,10 @@ void carregarLabirinto() {
 		}
 	}
     
+    /**
+     * Implementa ActionListener para voltar ao menu inicial
+     * @author migueloliveira
+     */
     private class initialMenuListener implements ActionListener
     {
     	private JFrame f;
@@ -437,11 +474,16 @@ void carregarLabirinto() {
     	
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			// fecha a janela atual e inicializa novo menu inicial
 			f.setVisible(false);
 			new InitialMenu();
 		}
     }
     
+    /**
+     * Implementa ActionListener para o botao das instrucoes de jogo
+     * @author migueloliveira
+     */
 	private class howToPlayListener implements ActionListener
 	{
 		private JFrame f;
@@ -480,6 +522,10 @@ void carregarLabirinto() {
 		}
 	}
 
+	/**
+	 * Implementa ActionListener para botao de novo jogo
+	 * @author migueloliveira
+	 */
 	private class newGameListener implements ActionListener
 	{
 		@Override
@@ -494,6 +540,10 @@ void carregarLabirinto() {
 		}
 	}
 	
+	/**
+	 * Implementa ActionListener para botao de gravar jogo
+	 * @author migueloliveira
+	 */
 	private class saveGameListener implements ActionListener
 	{
 		private JFrame parent;
@@ -506,11 +556,13 @@ void carregarLabirinto() {
 		public void actionPerformed(ActionEvent arg0) {
 			ObjectOutputStream os = null;
 
+			// apresenta janela para gravar ficheiro
 			int returnVal = fc.showSaveDialog(parent);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) 
 			{
 				try {
+					// tenta gravar o ficheiro com a extensao apropriada
 					os = new ObjectOutputStream ( new FileOutputStream(fc.getSelectedFile().getPath() + ".mzesvgme"));
 					os.writeObject(maze);
 				}
@@ -521,7 +573,7 @@ void carregarLabirinto() {
 				finally { 
 					if (os != null)
 						try {
-							os.close();
+							os.close(); // fecha o ficheiro
 						} catch (IOException e) 
 						{
 							e.printStackTrace();
@@ -543,21 +595,24 @@ void carregarLabirinto() {
 		public void actionPerformed(ActionEvent arg0) {
 			ObjectInputStream is = null;
 
+			// aplica um filtro para apenas permitir abrir ficheiros com a extensao correcta
 			fc.setAcceptAllFileFilterUsed(false);
 			fc.addChoosableFileFilter(new MazeFileFilter());
 			
 			int returnVal = fc.showOpenDialog(parent);
 
-			if (returnVal == JFileChooser.APPROVE_OPTION) 
+			if (returnVal == JFileChooser.APPROVE_OPTION) // se o jogador abriu um ficheiro
 			{
 				try {
+					// tenta carregar as informacoes do ficheiro
 					is = new ObjectInputStream ( new FileInputStream(fc.getSelectedFile().getPath()));
 					maze = (Labirinto) is.readObject();
 				}
-				catch (IOException e)
+				catch (IOException e) // se nao foi possivel carregar o ficheiro
 				{
 					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
+				} catch (ClassNotFoundException e) // se o ficheiro desserializado nao e da classe correcta
+				{
 					e.printStackTrace();
 				}
 				finally { if (is != null)
@@ -565,10 +620,14 @@ void carregarLabirinto() {
 						is.close();
 					} catch (IOException e) {
 						e.printStackTrace();
-					} }
+					} 
+				}
+				// inicializa as variaveis a partir das informacoes carregadas
 				configs.sizeMaze = maze.getSize();
 				configs.tactica = maze.getTactica();
 				configs.numberDragons = maze.getNumDragoes();
+				
+				// carrega e volta a apresentar a janela de jogo
 				carregarLabirinto();
 				setResizable(true);
 				updateUI();
@@ -579,14 +638,26 @@ void carregarLabirinto() {
 		}
 	}
 	
+	/**
+	 * Devolve as configuracoes atuais
+	 * @return ConfigurationMaze
+	 */
 	public ConfigurationMaze getConfigs() {
 		return configs;
 	}
 
+	/**
+	 * Devolve o Labirinto atual
+	 * @return Labirinto
+	 */
 	public Labirinto getMaze() {
 		return maze;
 	}
 
+	/**
+	 * Implementa ActionListener para botao de configuracoes
+	 * @author migueloliveira
+	 */
 	private class configurationsListener implements ActionListener
 	{
 		private JFrame f;
@@ -602,6 +673,10 @@ void carregarLabirinto() {
 		}
 	}
 	
+	/**
+	 * Implementa ActionListener para botao de criar novo Labirinto
+	 * @author migueloliveira
+	 */
 	private class createMazeListener implements ActionListener
 	{
 		private JFrame f;
@@ -616,6 +691,10 @@ void carregarLabirinto() {
 		
 	}
 	
+	/**
+	 * Implementa ActionListener para botao de zoom in
+	 * @author migueloliveira
+	 */
 	private class zoomInListener implements ActionListener
 	{
 
@@ -645,6 +724,10 @@ void carregarLabirinto() {
 		}
 	}
 	
+	/**
+	 * Implementa ActionListener para botao de zoom out
+	 * @author migueloliveira
+	 */
 	private class zoomOutListener implements ActionListener
 	{
 		private JFrame f;
@@ -673,6 +756,10 @@ void carregarLabirinto() {
 		}
 	}
 	
+	/**
+	 * Implementa ActionListener para botao de super poder 
+	 * @author migueloliveira
+	 */
 	private class superPowerListener implements ActionListener
 	{
 		@Override
@@ -773,6 +860,10 @@ void carregarLabirinto() {
 		}
 	}
 	
+	/**
+	 * Implementa ActionListener para botao de sair do jogo
+	 * @author migueloliveira
+	 */
 	private class ExitListener implements ActionListener 
 	{
 		@Override
@@ -791,6 +882,10 @@ void carregarLabirinto() {
 		}
 	}
 	
+	/**
+	 * Implementa ActionListener para botao de som
+	 * @author migueloliveira
+	 */
 	private class soundListener implements ActionListener
 	{
 		@Override
@@ -815,6 +910,10 @@ void carregarLabirinto() {
 		}
 	}
 	
+	/**
+	 * Implementa ActionListener para botao de visibilidade dos botoes principais
+	 * @author migueloliveira
+	 */
 	private class buttonVisibilityListener implements ActionListener
 	{
 
@@ -849,6 +948,10 @@ void carregarLabirinto() {
 		
 	}
 	
+	/**
+	 * Implementa KeyListener para detectar os movimentos do Heroi
+	 * @author migueloliveira
+	 */
 	private class movimentListener implements KeyListener
 	{
 
@@ -856,8 +959,9 @@ void carregarLabirinto() {
 		public void keyPressed(KeyEvent e) {
 			String str = null;
 			
-			if (!e.isAltDown())
+			if (!e.isAltDown()) // se nao estamos a usar um atalho
 			{
+				// determina a direcao a tomar
 				if (e.getKeyCode() == configs.keys[ConfigurationMaze.UP])
 					str = new String("w");
 				else if (e.getKeyCode() == configs.keys[ConfigurationMaze.DOWN])
@@ -893,7 +997,6 @@ void carregarLabirinto() {
 
 		@Override
 		public void keyReleased(KeyEvent e) { }
-
 		@Override
 		public void keyTyped(KeyEvent e) { }
 	}
