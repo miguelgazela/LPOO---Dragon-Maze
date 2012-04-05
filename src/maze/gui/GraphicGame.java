@@ -9,7 +9,7 @@ import maze.sound.*;
 
 
 /**
- * Classe principal para criar uma interface grafica para jogar
+ * Cria uma interface grafica para o jogo.
  * @author migueloliveira
  */
 public class GraphicGame extends JFrame implements Serializable {

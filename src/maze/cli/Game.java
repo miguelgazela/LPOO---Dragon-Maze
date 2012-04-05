@@ -7,6 +7,10 @@ import maze.logic.CustomBuilder;
 import maze.logic.Labirinto;
 import maze.logic.PreDefBuilder;
 
+/**
+ * Inicia 2 jogos em separado, um na consola e um com interface gr‡fica
+ * @author migueloliveira
+ */
 public class Game {
 	
 	public static void main(String[] args)

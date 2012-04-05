@@ -15,7 +15,10 @@ import javax.swing.event.ChangeListener;
 import maze.logic.ConfigurationMaze;
 
 /**
- * Classe que quando instanciada apresenta uma janela para configuracao do Labirinto
+ * Classe que quando instanciada apresenta uma janela para configuracao do Labirinto.
+ * Permite a configuracao do tamanho do labirinto, do numero de dragoes que 
+ * este possui, da tactica utilizada no jogo e as teclas utilizadas para o 
+ * movimento do Heroi.
  * 
  * @author migueloliveira
  */
@@ -36,7 +39,7 @@ public class Configuration extends JDialog implements ChangeListener {
 	private ConfigurationMaze temp, original;
 	
 	/**
-	 * Construtor que inicializa e apresenta a janela.
+	 * Inicializa e apresenta uma janela, com uma JFrame como dona
 	 * @param frame A JFrame "parent" da instancia criada
 	 * @param configs A configuracao atual do Labirinto
 	 */

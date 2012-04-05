@@ -9,7 +9,8 @@ import javax.swing.*;
 import maze.logic.*;
 
 /**
- * Apresenta uma janela que permite ao jogador criar o seu pro'prio labirinto
+ * Apresenta ao jogador uma janela com instrucoes para criar um labirinto
+ * e depois uma nova janela para se criar o labirinto.
  * @author migueloliveira
  */
 public class CreateMaze extends JFrame implements MouseListener, WindowListener, ActionListener {

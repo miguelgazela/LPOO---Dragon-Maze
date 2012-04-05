@@ -10,7 +10,9 @@ import maze.logic.ConfigurationMaze;
 import maze.logic.Labirinto;
 
 /**
- * Classe que quando instanciada apresenta uma janela com menu inicial
+ * Classe que quando instanciada apresenta uma janela com menu inicial.
+ * Permite iniciar um novo jogo, carregar um jogo a partir de um ficheiro,
+ * criar um labirinto, mudar as configuracoes ou sair do jogo.
  * @author migueloliveira
  */
 public class InitialMenu extends JFrame implements MouseListener {
