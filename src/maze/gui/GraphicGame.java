@@ -32,12 +32,13 @@ public class GraphicGame extends JFrame implements Serializable {
 	
 	public static boolean soundIsOn = true;
 	
-	private static int iconSize = 25;
+	private static int iconSize = 20;
 	
 	public static Icon questionMark;
 	private Icon wall, ground, dragon, sleepDragon, hero, heroArmed, exit, closedExit, sword, swordProtected, soundOn, soundOff;
 	private Icon wall20, ground20, dragon20, sleepDragon20, hero20, heroArmed20, exit20, closedExit20, sword20, swordProtected20;
 	private Icon wall15, ground15, dragon15, sleepDragon15, hero15, heroArmed15, exit15, closedExit15, sword15, swordProtected15;
+	private Icon wall10, ground10, dragon10, sleepDragon10, hero10, heroArmed10, exit10, closedExit10, sword10, swordProtected10;
 	
 	/**
 	 * Cria uma janela e apresenta uma janela, com um Labirinto construido com a configuracao recebida
@@ -89,13 +90,12 @@ public class GraphicGame extends JFrame implements Serializable {
 
 		// criar e configurar barra de ferramentas
 		initMenuBar();
-
+	
 		// mostrar janela
 		pack();
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		
 		fc = new JFileChooser();
 	}
 	
@@ -151,7 +151,7 @@ public class GraphicGame extends JFrame implements Serializable {
        	barZoomIn.addActionListener(new zoomInListener(this));
        	barZoomOut.addActionListener(new zoomOutListener(this));
        	barSound.addActionListener(new soundListener());
-       	barButtons.addActionListener(new buttonVisibilityListener(this));
+       	barButtons.addActionListener(new buttonVisibilityListener());
        	barSuperPower.addActionListener(new superPowerListener());
        	barHowToPlay.addActionListener(new howToPlayListener(this));
        	
@@ -288,6 +288,20 @@ public class GraphicGame extends JFrame implements Serializable {
 		soundOn = new ImageIcon("images/soundOn.png");
 		soundOff = new ImageIcon("images/soundOff.png");
 		swordProtected15 = new ImageIcon("images/swordProtected15.png");
+
+		// inicializar os icones 10x10
+		wall10 = new ImageIcon("images/wall10.png");
+		ground10 = new ImageIcon("images/ground10.png");
+		dragon10 = new ImageIcon("images/dragon10.png");
+		sleepDragon10 = new ImageIcon("images/dragonSleep10.png");
+		hero10 = new ImageIcon("images/hero10.png");
+		heroArmed10 = new ImageIcon("images/heroArmed10.png");
+		exit10 = new ImageIcon("images/exit10.png");
+		closedExit10 = new ImageIcon("images/closeExit10.png");
+		sword10 = new ImageIcon("images/sword10.png");
+		soundOn = new ImageIcon("images/soundOn.png");
+		soundOff = new ImageIcon("images/soundOff.png");
+		swordProtected10 = new ImageIcon("images/swordProtected10.png");
 	}
 
 	/**
@@ -297,9 +311,8 @@ public class GraphicGame extends JFrame implements Serializable {
 
 		if (labirinto != null) 							// se ja tem um labirinto carregado
 			getContentPane().remove(labirinto);
-
 		labirinto = new JPanel(new GridLayout(0, 1));	// painel com uma coluna
-
+		
 		// carregar array do labirinto
 		int[][] estruturaLabirinto = maze.getLabirinto();
 
@@ -308,7 +321,31 @@ public class GraphicGame extends JFrame implements Serializable {
 			JPanel labirintoLinha = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
 			// ver o tamanho atual para representacao dos icones do labirinto
-			if (iconSize == 15)
+			if (iconSize == 10)
+			{
+				for (int j = 0; j < estruturaLabirinto[i].length; j++)
+					if (estruturaLabirinto[i][j] == Labirinto.PAREDE)
+						labirintoLinha.add(new JLabel(wall10));
+					else if (estruturaLabirinto[i][j] == Labirinto.CHAO)
+						labirintoLinha.add(new JLabel(ground10));
+					else if (estruturaLabirinto[i][j] == Labirinto.DRAGAO && maze.getDragaoAt(i, j).estaAdormecido())
+						labirintoLinha.add(new JLabel(sleepDragon10));
+					else if (estruturaLabirinto[i][j] == Labirinto.DRAGAO)
+						labirintoLinha.add(new JLabel(dragon10));
+					else if (estruturaLabirinto[i][j] == Labirinto.HEROI)
+						labirintoLinha.add(new JLabel(hero10));
+					else if (estruturaLabirinto[i][j] == Labirinto.ARMADO)
+						labirintoLinha.add(new JLabel(heroArmed10));
+					else if (estruturaLabirinto[i][j] == Labirinto.SAIDA && maze.getHeroi().estaArmado())
+						labirintoLinha.add(new JLabel(exit10));
+					else if (estruturaLabirinto[i][j] == Labirinto.SAIDA)
+						labirintoLinha.add(new JLabel(closedExit10));
+					else if (estruturaLabirinto[i][j] == Labirinto.ESPADA)
+						labirintoLinha.add(new JLabel(sword10));
+					else if (estruturaLabirinto[i][j] == Labirinto.DRAGAOESPADA)
+						labirintoLinha.add(new JLabel(swordProtected10));
+			}
+			else if (iconSize == 15)
 			{
 				for (int j = 0; j < estruturaLabirinto[i].length; j++)
 					if (estruturaLabirinto[i][j] == Labirinto.PAREDE)
@@ -384,7 +421,6 @@ public class GraphicGame extends JFrame implements Serializable {
 		}
 		labirinto.setFocusable(true);
 		labirinto.addKeyListener(new movimentListener());
-
 		getContentPane().add(labirinto, BorderLayout.NORTH);
 	}
 
@@ -410,8 +446,8 @@ public class GraphicGame extends JFrame implements Serializable {
 		
 		this.setResizable(true); // permite expandir se o tamanha do labirinto aumentou 
 		carregarLabirinto(); // atualiza o painel do labirinto
-		
 		pack();
+		setLocationRelativeTo(null);
 		this.setResizable(false); 
 		labirinto.requestFocus();
 	}
@@ -476,7 +512,7 @@ public class GraphicGame extends JFrame implements Serializable {
 		public void actionPerformed(ActionEvent arg0) {
 			// fecha a janela atual e inicializa novo menu inicial
 			f.setVisible(false);
-			new InitialMenu();
+			new InitialMenu(configs);
 		}
     }
     
@@ -709,7 +745,7 @@ public class GraphicGame extends JFrame implements Serializable {
 
 			if (iconSize == 25) // se ja esta no tamanho maximo
 				JOptionPane.showMessageDialog(null, "The game is already in the maximum size!", "Size warning", JOptionPane.WARNING_MESSAGE);
-			else if (iconSize == 15 || iconSize == 20)
+			else if (iconSize == 15 || iconSize == 20 || iconSize == 10)
 			{
 				/* aumenta o tamanho dos icones atuais 5 pixeis e actualiza janela */
 				iconSize += 5;
@@ -739,9 +775,9 @@ public class GraphicGame extends JFrame implements Serializable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if (iconSize == 15) // se ja esta no tamanho minimo 
+			if (iconSize == 10) // se ja esta no tamanho minimo 
 				JOptionPane.showMessageDialog(null, "The game is already in the minimum size!", "Size warning", JOptionPane.WARNING_MESSAGE);
-			else if (iconSize == 20 || iconSize == 25)
+			else if (iconSize == 15 || iconSize == 20 || iconSize == 25)
 			{
 				/* diminui o tamanho dos icones atuais 5 pixeis e actualiza janela */
 				iconSize -= 5;
@@ -916,17 +952,10 @@ public class GraphicGame extends JFrame implements Serializable {
 	 */
 	private class buttonVisibilityListener implements ActionListener
 	{
-
-		private JFrame f;
-		
-		public buttonVisibilityListener (JFrame f) {
-			this.f = f;
-		}
-		
 		@Override
 		public void actionPerformed(ActionEvent event) {
 		
-			f.setResizable(true);
+			//f.setResizable(true);
 			
 			/* retira ou volta a colocar o painel de botoes da janela principal */
 			if (buttonPanelIsVisible)
@@ -943,9 +972,7 @@ public class GraphicGame extends JFrame implements Serializable {
 			}
 			pack();
 			setLocationRelativeTo(null);
-			f.setResizable(false);
 		}
-		
 	}
 	
 	/**

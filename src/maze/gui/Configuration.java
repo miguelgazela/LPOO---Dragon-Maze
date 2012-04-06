@@ -27,7 +27,7 @@ public class Configuration extends JDialog implements ChangeListener {
 	private static final long serialVersionUID = 917983375861534320L;
 	
 	private static final int MAZE_SIZE_MIN = 10;
-	private static final int MAZE_SIZE_MAX = 60;
+	private static final int MAZE_SIZE_MAX = 70;
 	private static final int NUMBER_DRAGONS_MIN = 0;
 	private static final int NUMBER_DRAGONS_MAX = 15;
 	

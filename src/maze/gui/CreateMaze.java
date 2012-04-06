@@ -1,8 +1,10 @@
 package maze.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import java.util.Vector;
 import javax.swing.*;
@@ -71,9 +73,19 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 		initIconBar();
 		initMenuBar();
 		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
 		// mostrar janela e meter invisivel a parent
 		parent.setVisible(false);
 		pack();
+		
+		// veficar se precisa de meter scrollpane ou nao
+		if ( (configs.sizeMaze * 20) >= screenSize.height - 350 )
+		{
+			this.setSize(screenSize.width - 10, screenSize.height-72);
+			JScrollPane scrollPane = new JScrollPane(labirinto);
+			add(scrollPane, BorderLayout.CENTER);
+		}
 		setLocationRelativeTo(null);
 		setResizable(false);
 		this.addWindowListener(this);
@@ -176,6 +188,8 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 			lDragon = new JRadioButton (dragonSleep20, false);
 		else
 			lDragon = new JRadioButton (dragon20, false);
+		if (configs.numberDragons == 0)
+			lDragon.setEnabled(false);
 		lClosedExit = new JRadioButton (closedExit20, false);
 		lSword = new JRadioButton (sword20, false);
 		useThis = new JButton ("Use this maze");
@@ -413,10 +427,15 @@ public class CreateMaze extends JFrame implements MouseListener, WindowListener,
 								resetToWall();
 							}
 						}
-						else // tentar colocar por cima de uma espada
+						else if ( swordPlaced && xCell == sword.getPos().x && yCell == sword.getPos().y)// tentar colocar por cima de uma espada
 						{
 							errorDisplayed = true;
 							JOptionPane.showMessageDialog(null, "You can't place a dragon on top of the sword!", "", JOptionPane.ERROR_MESSAGE);
+						}
+						else // tentar colocar por cima de outro dragao
+						{
+							errorDisplayed = true;
+							JOptionPane.showMessageDialog(null, "You can't place a dragon on top of another dragon!", "", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				}
