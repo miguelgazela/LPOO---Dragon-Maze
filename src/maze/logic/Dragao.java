@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Classe derivada de Elemento.
- * Representa um dragao no labirinto.
+ * Representa um dragao presente no labirinto.
  * @author migueloliveira
  */
 public class Dragao extends Elemento implements Serializable{

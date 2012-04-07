@@ -9,7 +9,9 @@ import maze.sound.*;
 
 
 /**
- * Cria uma interface grafica para o jogo.
+ * Cria uma interface grafica para o jogo. Permite aumentar ou diminuir 
+ * o tamanho do labirinto para melhor apresentacao no ecra. Permite desligar ou
+ * ligar os sons reproduzidos, permite tambem gravar e carregar jogos.
  * @author migueloliveira
  */
 public class GraphicGame extends JFrame implements Serializable {

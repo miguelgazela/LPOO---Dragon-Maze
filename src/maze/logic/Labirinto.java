@@ -8,7 +8,10 @@ import maze.sound.dragonDies;
 import maze.sound.soundPickSword;
 
 /**
- * Representacao de um labirinto
+ * Representacao de um labirinto. Possui os 
+ * elementos necessarios, como Heroi, Espada, etc.
+ * Os seus metodos principais permitem mover o Heroi, mover o/os dragao/oes, 
+ * assim como verificar se o Heroi se encontra perto de algum Dragao.
  * @author migueloliveira
  */
 public class Labirinto implements Serializable {
@@ -42,7 +45,7 @@ public class Labirinto implements Serializable {
 	protected boolean chegouFim;
 	
 	/**
-	 * Construtor
+	 * Utilizado pelo outro construtor para iniciar determinados atributos
 	 */
 	public Labirinto() {
 		chegouFim = false;
@@ -50,7 +53,8 @@ public class Labirinto implements Serializable {
 	}
 	
 	/**
-	 * Construtor
+	 * Constroi um labirinto a partir com as configuracoes recebidas, e utiliza
+	 * todos os Elementos recebidos, em vez de construir os seus proprios Elementos.
 	 * @param configs Configuracao a utilizar
 	 * @param maze labirinto ja construido
 	 * @param hero heroi ja colocado

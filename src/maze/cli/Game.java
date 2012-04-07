@@ -8,12 +8,19 @@ import maze.logic.Labirinto;
 import maze.logic.PreDefBuilder;
 
 /**
- * Inicia 2 jogos em separado, um na consola e um com interface gr‡fica
+ * Classe responsavel por inicial o jogo. Pode iniciar
+ * um jogo no modo consola ou com interface grafica.
  * @author migueloliveira
  */
 public class Game {
 	
-	public static void main(String[] args)
+	public static void main(String []args) {
+		
+		// iniciar interface grafica
+		new InitialMenu();
+	}
+	
+	public static void mainConsole(String[] args)
 	{
 		// declaracao de variaveis e inicializacao de objetos necessarios
 		int tamanho = 0, opcao = 0, tactica = 0;
@@ -21,9 +28,6 @@ public class Game {
 		boolean escolhaValida = false;
 		Scanner input = new Scanner(System.in);
 		Labirinto maze;
-		
-		// iniciar interface grafica
-		new InitialMenu();
 		
 		// continuar com o modo consola
 		// escolha do labirinto pre-definido ou do automatico com tamanho variavel

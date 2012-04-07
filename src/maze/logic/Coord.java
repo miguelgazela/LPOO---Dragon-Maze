@@ -3,7 +3,9 @@ package maze.logic;
 import java.io.Serializable;
 
 /**
- * Classe que representa uma coordenada num array 
+ * Classe que representa uma coordenada num array,
+ * sendo constituido por 2 inteiros, a coluna e a linha onde
+ * se encontra.
  * @author migueloliveira
  */
 public class Coord implements Serializable {

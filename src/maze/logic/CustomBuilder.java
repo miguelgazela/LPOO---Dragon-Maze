@@ -1,7 +1,8 @@
 package maze.logic;
 
 /**
- * Classe que descende de Builder e constroi um Labirinto custom
+ * Classe que descende de Builder e constroi um Labirinto custom com um
+ * tamanho, tactica e numero de dragoes escolhidos pelo jogador.
  * @author migueloliveira
  */
 public class CustomBuilder extends Builder {
