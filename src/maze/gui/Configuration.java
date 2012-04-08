@@ -40,7 +40,7 @@ public class Configuration extends JDialog implements ChangeListener {
 	
 	/**
 	 * Inicializa e apresenta uma janela, com uma JFrame como dona
-	 * @param frame A JFrame "parent" da instancia criada
+	 * @param parent A JFrame "parent" da instancia criada
 	 * @param configs A configuracao atual do Labirinto
 	 */
 	public Configuration (JFrame parent, ConfigurationMaze configs) {

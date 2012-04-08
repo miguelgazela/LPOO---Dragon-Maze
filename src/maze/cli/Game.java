@@ -23,7 +23,7 @@ public class Game {
 	public static void mainConsole(String[] args)
 	{
 		// declaracao de variaveis e inicializacao de objetos necessarios
-		int tamanho = 0, opcao = 0, tactica = 0;
+		int tamanho = 0, opcao = 0, tactica = 0, numeroDragoes = 0;
 		String str = new String("");
 		boolean escolhaValida = false;
 		Scanner input = new Scanner(System.in);
@@ -82,10 +82,30 @@ public class Game {
 						escolhaValida = true;
 				}
 				catch (NumberFormatException e) {
-					System.out.println("Valor invalido\n");
+					System.out.println("Valor invalido");
 				}
-				
 			} while(!escolhaValida);
+		
+		escolhaValida = false;
+		boolean erroApresentado;
+		
+		if (opcao == 1)
+			do {
+				erroApresentado = false;
+				System.out.println("\nQuantos dragoes deve ter o labirinto? (Entre 1 e 30)");
+				str = input.next();
+				try {
+					numeroDragoes = Integer.parseInt(str);
+					if (numeroDragoes > 0 && numeroDragoes < 31)
+						escolhaValida = true;
+				}
+				catch (NumberFormatException e) {
+					System.out.println("Valor invalido");
+					erroApresentado = true;
+				}
+				if (!escolhaValida && !erroApresentado)
+					System.out.println("Valor invalido");
+			} while (!escolhaValida);
 		
 		if (opcao == 2) // quer jogar com labirinto pre-definido
 		{
@@ -99,7 +119,7 @@ public class Game {
 		}
 		else // quer jogar com um labirinto de tamanho variavel
 		{
-			maze = new CustomBuilder(tamanho, 2, tactica)
+			maze = new CustomBuilder(tamanho, numeroDragoes, tactica)
 					.construirLabirinto()
 					.colocarDragao()
 					.colocarEspada()

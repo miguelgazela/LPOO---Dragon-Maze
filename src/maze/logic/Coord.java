@@ -47,7 +47,7 @@ public class Coord implements Serializable {
 	
 	/**
 	 * Verifica se 2 coordenadas apontam para a mesma posicao
-	 * @param Object Coordenada para ser comparada
+	 * @param c2 Coordenada para ser comparada
 	 * @return boolean 
 	 */
 	public boolean equals (Object c2) {

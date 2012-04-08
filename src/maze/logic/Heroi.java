@@ -48,7 +48,7 @@ public class Heroi extends Elemento implements Serializable{
 
 	/**
 	 * Verifica se o Heroi esta morto
-	 * @return
+	 * @return boolean
 	 */
 	public boolean estaMorto() {
 		return heroiMorto;
